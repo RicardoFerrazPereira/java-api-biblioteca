@@ -1,8 +1,11 @@
 package org.serratec.java2backend.biblioteca.dto;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class LivroDTO {
+public class LivroDTO implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 	
 	private Integer idLivro;
 	private String tituloLivro;

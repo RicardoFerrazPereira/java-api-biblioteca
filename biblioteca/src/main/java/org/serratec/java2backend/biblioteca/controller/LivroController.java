@@ -3,7 +3,8 @@ package org.serratec.java2backend.biblioteca.controller;
 import java.util.List;
 
 import org.serratec.java2backend.biblioteca.dto.LivroDTO;
-import org.serratec.java2backend.biblioteca.model.Livro;
+import org.serratec.java2backend.biblioteca.exception.LivroException;
+
 import org.serratec.java2backend.biblioteca.service.LivroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,14 +33,14 @@ public class LivroController {
 	}
 	
 	@GetMapping("/buscar/{idLivro}")
-	public ResponseEntity<LivroDTO> buscarPorId(@PathVariable Integer idLivro){
+	public ResponseEntity<LivroDTO> buscarPorId(@PathVariable Integer idLivro) throws LivroException{
 		return ResponseEntity.ok(livroService.buscarPorId(idLivro));
 	}
 	
 	@PutMapping("/atualizar/{idLivro}")
-	public ResponseEntity<Void> atualizar(@PathVariable Integer idLivro, @RequestBody LivroDTO livroDTO){
-		livroService.atualizar(idLivro, livroDTO);
-		return new ResponseEntity<>(HttpStatus.CREATED);
+	public ResponseEntity<String> atualizar(@PathVariable Integer idLivro, @RequestBody LivroDTO livroDTO) throws LivroException{
+		return ResponseEntity.ok(livroService.atualizar(idLivro, livroDTO));
+
 	}
 	
 	@DeleteMapping("/delete/{idLivro}")
@@ -49,15 +50,20 @@ public class LivroController {
 	}
 	
 	@GetMapping("/lista")
-	public ResponseEntity<List<Livro>> listaTodos(){
+	public ResponseEntity<List<LivroDTO>> listaTodos(){
 		return ResponseEntity.ok(livroService.listarTodos());
 	}
 	
 	@PostMapping("/salvar-lista")
-	public ResponseEntity<Void> salvarLista(@RequestBody List<Livro> listaLivro){
-		livroService.salvarTodos(listaLivro);
+	public ResponseEntity<Void> salvarLista(@RequestBody List<LivroDTO> listaLivroDTO){
+		livroService.salvarTodos(listaLivroDTO);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 		
 	}
+	
+//	@PostMapping("/salvar-lista")
+//	public ResponseEntity<Void> salvarLista(@RequestBody List<LivroDTO> livrosSalvosDTO){
+//		livroService.salvarLista(livrosSalvosDTO);
+//		return new ResponseEntity<>(HttpStatus.ACCEPTED);
 	
 }
