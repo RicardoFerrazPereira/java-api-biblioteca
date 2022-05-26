@@ -1,39 +1,16 @@
-package org.serratec.java2backend.biblioteca.model;
+package org.serratec.java2backend.biblioteca.dto;
 
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-@Entity
-@Table(name="livro")
-public class Livro {
+public class LivroDTO {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="livro_cd_id")
 	private Integer idLivro;
-	
-	@Column(name="livro_tx_titulo_livro")
 	private String tituloLivro;
-	
-	@Column(name="livro_tx_tipo_livro")
 	private String tipoLivro;
-	
-	@Column(name="livro_tx_autor")
-	private String autor;
-	
-	@Column(name="livro_dt_publicacao")
-
+	private String autor;	
 	private Date dataPublicacao;
 	
-	
-	public Livro() {}
-		
+	public LivroDTO() {}
 	
 	public Integer getIdLivro() {
 		return idLivro;
@@ -65,7 +42,4 @@ public class Livro {
 	public void setDataPublicacao(Date dataPublicacao) {
 		this.dataPublicacao = dataPublicacao;
 	}
-	
-	
-
 }

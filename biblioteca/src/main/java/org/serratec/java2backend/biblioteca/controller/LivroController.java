@@ -2,6 +2,7 @@ package org.serratec.java2backend.biblioteca.controller;
 
 import java.util.List;
 
+import org.serratec.java2backend.biblioteca.dto.LivroDTO;
 import org.serratec.java2backend.biblioteca.model.Livro;
 import org.serratec.java2backend.biblioteca.service.LivroService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,18 +26,19 @@ public class LivroController {
 	LivroService livroService;
 	
 	@PostMapping("/salvar")
-	public ResponseEntity<Void> salvar(@RequestBody Livro livro) {
-		livroService.salvar(livro);
+	public ResponseEntity<Void> salvar(@RequestBody LivroDTO livroDTO) {
+		livroService.salvar(livroDTO);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
+	
 	@GetMapping("/buscar/{idLivro}")
-	public ResponseEntity<Livro> buscarPorId(@PathVariable Integer idLivro){
+	public ResponseEntity<LivroDTO> buscarPorId(@PathVariable Integer idLivro){
 		return ResponseEntity.ok(livroService.buscarPorId(idLivro));
 	}
 	
 	@PutMapping("/atualizar/{idLivro}")
-	public ResponseEntity<Void> atualizar(@PathVariable Integer idLivro, @RequestBody Livro livro){
-		livroService.atualizar(idLivro, livro);
+	public ResponseEntity<Void> atualizar(@PathVariable Integer idLivro, @RequestBody LivroDTO livroDTO){
+		livroService.atualizar(idLivro, livroDTO);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 	
@@ -45,6 +47,7 @@ public class LivroController {
 		livroService.delete(idLivro);
 		return new ResponseEntity<>(HttpStatus.ACCEPTED);
 	}
+	
 	@GetMapping("/lista")
 	public ResponseEntity<List<Livro>> listaTodos(){
 		return ResponseEntity.ok(livroService.listarTodos());
