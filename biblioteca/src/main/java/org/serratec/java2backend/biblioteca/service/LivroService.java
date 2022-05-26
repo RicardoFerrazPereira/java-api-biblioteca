@@ -4,12 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+//import javax.persistence.criteria.Order;
+
 import org.serratec.java2backend.biblioteca.dto.LivroDTO;
 import org.serratec.java2backend.biblioteca.exception.LivroException;
 import org.serratec.java2backend.biblioteca.model.Livro;
 import org.serratec.java2backend.biblioteca.repository.LivroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort.Order;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
 
 @Service
 public class LivroService {
@@ -111,6 +116,44 @@ public class LivroService {
 		livroRepository.saveAll(salvarLivros);
 	}
 	
-	
+	public List<LivroDTO> listaOrdenada(String ordem) throws LivroException{
+		List<Livro> listaModel = new ArrayList<>();
+		List<LivroDTO> listaDTO = new ArrayList<>();
+		
+		String nomeAtributo = null; 
+		
+		switch (ordem) { 
+		
+		case "titulo" :
+			nomeAtributo = "tituloLivro";
+		break;
+		
+		case "autor":
+			nomeAtributo = "autor";
+		break;
+		
+		case "categoria":
+			nomeAtributo = "tipoLivro";
+		break;
+		
+		case "data":
+			nomeAtributo = "dataPublicacao";
+		break;
+		
+		default:
+			throw new LivroException("Parâmetro não aceito. Os parâmetros aceitos são: titulo, autor, categoria, data.");
+		}
+			
+		listaModel = livroRepository.findAll(Sort.by(Order.by(nomeAtributo)));
+				
+		for (Livro livroModel : listaModel) {
+			LivroDTO livroDTO = new LivroDTO();
+			converterModelEmDto(livroModel, livroDTO);
+			listaDTO.add(livroDTO);
+		}		
+		
+		return listaDTO;		
+	}
+
 
 }
